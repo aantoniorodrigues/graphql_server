@@ -78,7 +78,7 @@ const resolvers = {
         updateAuthor(_parent, args) {
             db.authors = db.authors.map((author) => {
                 if (author.id === args.id) {
-                    return {...args.edits, ...author}
+                    return {...author, ...args.edits}
                 }
                 return author
             })
