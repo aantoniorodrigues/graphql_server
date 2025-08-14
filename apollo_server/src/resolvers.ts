@@ -61,6 +61,28 @@ const resolvers = {
                 return game
             })
             return db.games.find((game) => game.id === args.id)
+        },
+        addAuthor(_parent, args) {
+            const newAuthor = {
+                ...args.author,
+                id: (db.authors.length + 1).toString()
+            }
+
+            db.authors.push(newAuthor);
+            return newAuthor;
+        },
+        deleteAuthor(_parent, args) {
+            db.authors = db.authors.filter((author) => author.id !== args.id);
+            return db.authors;
+        },
+        updateAuthor(_parent, args) {
+            db.authors = db.authors.map((author) => {
+                if (author.id === args.id) {
+                    return {...args.edits, ...author}
+                }
+                return author
+            })
+            return db.authors.find((author) => author.id === args.id)
         }
     }
 }
