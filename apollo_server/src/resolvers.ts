@@ -83,6 +83,28 @@ const resolvers = {
                 return author
             })
             return db.authors.find((author) => author.id === args.id)
+        },
+        addReview(_parent, args) {
+            const newReview = {
+                ...args.review,
+                id: (db.reviews.length + 1).toString()
+            }
+
+            db.reviews.push(newReview);
+            return newReview;
+        },
+        deleteReview(_parent, args) {
+            db.reviews = db.reviews.filter((review) => review.id !== args.id);
+            return db.reviews;
+        },
+        updateReview(_parent, args) {
+            db.reviews = db.reviews.map((review) => {
+                if (review.id === args.id) {
+                    return {...review, ...args.edits}
+                }
+                return review
+            })
+            return db.reviews.find((review) => review.id === args.id)
         }
     }
 }
